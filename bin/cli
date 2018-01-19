@@ -1,0 +1,9 @@
+$ cat cli
+. api-token
+export auth=admin:$api_token
+#java -jar jenkins-cli.jar -s http://localhost:8080/jenkins -auth $auth help
+#java -jar jenkins-cli.jar -s http://localhost:8080/jenkins -auth $auth who-am-i
+#java -jar jenkins-cli.jar -s http://localhost:8080/jenkins -auth $auth version
+#java -jar jenkins-cli.jar -s http://localhost:8080/jenkins -auth $auth groovysh
+
+java -jar jenkins-cli.jar -s http://localhost:8080/jenkins -auth $auth $1

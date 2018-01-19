@@ -1,0 +1,139 @@
+https://wiki.jenkins.io/display/JENKINS/Plugin+tutorial
+
+Creating a New Plugin
+$ mvn archetype:generate -Dfilter=io.jenkins.archetypes:plugin
+artifactId: mw-plugin
+
+Setting up a productive environment with your IDE (eclipse)
+$ cd mw-plugin
+# 
+$ mvn -DdownloadSources=true -DdownloadJavadocs=true -DoutputDirectory=target/eclipse-classes -Declipse.workspace=~/workspace eclipse:eclipse eclipse:configure-workspace
+
+Debugging a Plugin
+
+Linux
+$ export MAVEN_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=8000,suspend=n"
+$ mvn hpi:run
+
+	shortcut command for the above is:
+	$ mvnDebug hpi:run
+	Note: mvnDebug does not start jetty server
+
+	See https://www.google.com/search?client=ubuntu&channel=fs&q=what+is+mvnDebug+command&ie=utf-8&oe=utf-8
+	for what is mvnDebug
+
+
+[INFO] Configuring Jetty for project: TODO Plugin
+[INFO] ~/workspace/jenkins/mw-plugin/target/tmp/webapp already up to date with respect to ~/.m2/repository/org/jenkins-ci/main/jenkins-war/2.7.3/jenkins-war-2.7.3.war
+[INFO] Context path = /jenkins
+[INFO] Tmp directory = ~/workspace/jenkins/mw-plugin/target/tmp
+[INFO] Web defaults = org/eclipse/jetty/webapp/webdefault.xml
+[INFO] Web overrides =  none
+[INFO] jetty-9.4.5.v20170502
+[INFO] DefaultSessionIdManager workerName=node0
+[INFO] No SessionScavenger set, using defaults
+[INFO] Scavenging every 600000ms
+Jenkins home directory: ~/workspace/jenkins/mw-plugin/work found at: SystemProperties.getProperty("JENKINS_HOME")
+[INFO] Started o.e.j.m.p.JettyWebAppContext@5660960a{/jenkins,file://~/workspace/jenkins/mw-plugin/target/tmp/webapp/,AVAILABLE}{~/.m2/repository/org/jenkins-ci/main/jenkins-war/2.7.3/jenkins-war-2.7.3.war}
+[INFO] Started ServerConnector@3c4815af{HTTP/1.1,[http/1.1]}{0.0.0.0:8080}
+[INFO] Started @22263ms
+[INFO] Started Jetty Server
+[INFO] Console reloading is ENABLED. Hit ENTER on the console to restart the context.
+Jan 18, 2018 3:17:53 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Started initialization
+Jan 18, 2018 3:17:53 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Listed all plugins
+Jan 18, 2018 3:17:55 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Prepared all plugins
+Jan 18, 2018 3:17:55 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Started all plugins
+Jan 18, 2018 3:17:55 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Augmented all extensions
+Jan 18, 2018 3:17:56 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Loaded all jobs
+Jan 18, 2018 3:17:56 PM hudson.model.AsyncPeriodicWork$1 run
+INFO: Started Download metadata
+Jan 18, 2018 3:17:56 PM hudson.model.AsyncPeriodicWork$1 run
+INFO: Finished Download metadata. 9 ms
+Jan 18, 2018 3:17:57 PM org.jenkinsci.main.modules.sshd.SSHD start
+INFO: Started SSHD at port 41042
+Jan 18, 2018 3:17:57 PM jenkins.InitReactorRunner$1 onAttained
+INFO: Completed initialization
+Jan 18, 2018 3:17:57 PM jenkins.install.InstallUtil proceedToNextStateFrom
+INFO: Install state tranisitioning from: InstallState (UNKNOWN) to: InstallState (DEVELOPMENT)
+Jan 18, 2018 3:17:57 PM hudson.WebAppMain$3 run
+INFO: Jenkins is fully up and running
+
+http://localhost:8080/jenkins/
+Browser is okay to display Jenkins UI
+If click People, http://localhost:8080/jenkins/asynchPeople/, there is no user there. This is confirmed that it is different from standard jenkins started from tomcat.
+
+Changing port
+If you need to launch the Jenkins on a different port than 8080, set the port through the system property jetty.port.
+mvn hpi:run -Djetty.port=8090
+
+Distributing a Plugin
+    To create a distribution image of your plugin, run the following Maven command:
+
+$ mvn package
+    This should create target/*.hpi file. Other users can use Jenkins' web UI to upload this plugin to Jenkins (or place it in $JENKINS_HOME/plugins.)
+    Releasing a Plugin and Hosting a Plugin on jenkins-ci.org
+
+# ==============================================================================
+# Install a plugin
+https://jenkins.io/doc/book/managing/plugins/
+1) copy jpi/hpi file unde $JENKINS_HOME/plugins folder
+2) Manually install from Jenkins Web UI , Manage Jenkins > Manage Plugins > Advanced tab > Scroll Down to File Upload section
+3) Run Jenkins CLI commands
+       java -jar jenkins-cli.jar -s http://localhost:8080/ install-plugin SOURCE ... [-deploy] [-name VAL] [-restart]
+       java -jar jenkins-cli.jar -s http://localhost:8080/ install-plugin ~/.jenkins/plugins/subversion.jpi
+	    java.io.IOException: There's no Jenkins running at http://localhost:8080/
+
+       cd ~/workspace/jenkins/sji-plugin/target/tmp/webapp/WEB-INF
+       java -jar jenkins-cli.jar -s http://localhost:8080/jenkins install-plugin ~/.jenkins/plugins/subversion.jpi
+       WARNING: CLI authentication failure
+       [WARN] Failed to authenticate with your SSH keys. Proceeding as anonymous
+       Installing a plugin from local file: ~/.jenkins/plugins/subversion.jpi
+
+       subversion.jpi was uploaded to ~/workspace/jenkins/sji-plugin/work/plugins, but not expanded
+
+   jenkins-cli.jar can be found under 
+	~/workspace/jenkins/sji-plugin/target/tmp/webapp/WEB-INF or
+	~/j01/srv/tomcat/webapps/jenkins/WEB-INF
+# ==============================================================================
+
+tomcat - jenkins - ~/.jenkins/plugins
+jettey - jenkins - ~/workspace/jenkins/mw-plugin/work/plugins
+    export MAVEN_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=8000,suspend=n"
+    mvn hpi:run
+    Jenkins home directory: ~/workspace/jenkins/mw-plugin/work found at: SystemProperties.getProperty("JENKINS_HOME")
+exercise:
+cp ~/.jenkins/plugins/git.jpi ~/workspace/jenkins/mw-plugin/work
+cd ~/workspace/jenkins/mw-plugin
+mvn hpi:plugin
+verified that a new folder git/ was created under ~/workspace/jenkins/mw-plugin/work/plugins
+basically, git.jpi was unzipped after jettey server started
+
+jon-dell5050 $ ls | wc
+     57      57    1035
+jon-dell5050 $ ls -al | wc
+     60     533    4119
+Now install gitserver.jpi manually from jetty jenkins instance
+
+# ==============================================================================
+# Remove a plugin
+1) From Web UI, Sign in as Administrator, Manage Jenkins > Manage Plugins > Installed tab
+   Select a plugin, e.g. git-client, to be uninstalled. Restart if necessary to take effective
+   Notice that git-client.jpi was removed from $JENKINS_HOME/plugins, but exploded git-client
+   folder remained
+2) shutdown Jenkins, go to $JENKINS_HOME/plugins folder, manually removed xxx.jpi files and its 
+   exploded folder, this is not recommended since its dependencies are not removed.
+
+# ==============================================================================
+# https://jenkins.io/doc/book/managing/cli/
+
+$ curl -Lv http://localhost:8080/jenkins/login 2>&1 | grep 'X-SSH-Endpoint'
+< X-SSH-Endpoint: localhost:41117
+
+# 	https://jenkins.io/doc/book/managing/security/#ssh-server
+http://localhost:8080/jenkins/configureSecurity/
