@@ -1,0 +1,38 @@
+1) Creating a New Plugin
+$ mvn archetype:generate -Dfilter=io.jenkins.archetypes:plugin
+
+Choose archetype:
+1: remote -> io.jenkins.archetypes:empty-plugin (Skeleton of a Jenkins plugin with a POM and an empty source tree.)
+2: remote -> io.jenkins.archetypes:global-configuration-plugin (Skeleton of a Jenkins plugin with a POM and an example piece of global configuration.)
+3: remote -> io.jenkins.archetypes:hello-world-plugin (Skeleton of a Jenkins plugin with a POM and an example build step.)
+Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): : 3
+
+Choose io.jenkins.archetypes:hello-world-plugin version: 
+1: 1.1
+2: 1.2
+Choose a number: 2: 2
+
+[INFO] Using property: groupId = unused
+Define value for property 'artifactId': mw-plugin (i.e. the project name)
+Define value for property 'version' 1.0-SNAPSHOT: : 
+
+[INFO] Using property: package = org.jenkinsci.plugins.sample
+Confirm properties configuration:
+groupId: unused
+artifactId: mw-plugin
+version: 1.0-SNAPSHOT
+package: org.jenkinsci.plugins.sample
+ Y: : 
+
+2) Setting up a productive environment with your IDE (eclipse)
+$ cd mw-plugin
+ 
+~/bin/jenkins/eclipse-env
+
+3) Build and run Jenkins plugin in debug mode
+~/bin/jenkins/mvn-hpi-run
+
+4) Verify hpl file was generated
+find | grep hpl
+./work/plugins/mw-plugin.hpl
+
