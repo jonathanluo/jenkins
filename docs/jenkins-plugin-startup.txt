@@ -2,26 +2,8 @@ https://wiki.jenkins.io/display/JENKINS/Plugin+tutorial
 
 Creating a New Plugin
 $ mvn archetype:generate -Dfilter=io.jenkins.archetypes:plugin
-artifactId: mw-plugin
 
-Setting up a productive environment with your IDE (eclipse)
-$ cd mw-plugin
-# 
-$ mvn -DdownloadSources=true -DdownloadJavadocs=true -DoutputDirectory=target/eclipse-classes -Declipse.workspace=~/workspace eclipse:eclipse eclipse:configure-workspace
-
-Debugging a Plugin
-
-Linux
-$ export MAVEN_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=8000,suspend=n"
-$ mvn hpi:run
-
-	shortcut command for the above is:
-	$ mvnDebug hpi:run
-	Note: mvnDebug does not start jetty server
-
-	See https://www.google.com/search?client=ubuntu&channel=fs&q=what+is+mvnDebug+command&ie=utf-8&oe=utf-8
-	for what is mvnDebug
-
+See mw-plugin/notes.txt fro more deatils
 
 [INFO] Configuring Jetty for project: TODO Plugin
 [INFO] ~/workspace/jenkins/mw-plugin/target/tmp/webapp already up to date with respect to ~/.m2/repository/org/jenkins-ci/main/jenkins-war/2.7.3/jenkins-war-2.7.3.war
