@@ -39,8 +39,16 @@ public class SleepBuilder extends Builder {
 
     @Override
     public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-        listener.getLogger().println("Sleeping for: " + time + " ms.");
-        Thread.sleep(time);
+        listener.getLogger().println("Going to sleep for: " + time + " ms.");
+        for (int i = 0; i < time / 1000; i++) {
+            listener.getLogger().println("    pause for " + (i+1) + " second.");
+            Thread.sleep(1000);
+        }
+        long remainder = time % 1000;
+        if (remainder > 0) {
+            listener.getLogger().println("    finally pause for " + remainder + " ms.");
+            Thread.sleep(remainder);
+        }
         return true;
     }
 
