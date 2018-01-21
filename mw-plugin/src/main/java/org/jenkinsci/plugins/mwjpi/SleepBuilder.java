@@ -54,23 +54,23 @@ public class SleepBuilder extends Builder {
 
         @Override
         public String getDisplayName() {
-            return "Sleep builder";
+            return Messages.SleepBuilder_DescriptorImpl_DisplayName();
         }
 
         public FormValidation doCheckTime(@QueryParameter String time)
                 throws IOException, ServletException {
             try {
                 if (Long.valueOf(time) < 0) {
-                    return FormValidation.error("Please enter a positive number");
+                    return FormValidation.error(Messages.SleepBuilder_DescriptorImpl_errors_positiveNumber());
                 } else if (Long.valueOf(time) < 1000) {
-                    return FormValidation.error("Please enter a number >= 1000");
+                    return FormValidation.error(Messages.SleepBuilder_DescriptorImpl_errors_greaterThan1000());
                 } else if (Long.valueOf(time) > 9999) {
-                    return FormValidation.error("Please enter a number <= 9999");
+                    return FormValidation.error(Messages.SleepBuilder_DescriptorImpl_errors_lessThan9999());
                 }
                 return FormValidation.ok();
             } catch (NumberFormatException e) {
             }
-            return FormValidation.error("Please enter a number");
+            return FormValidation.error(Messages.SleepBuilder_DescriptorImpl_errors_enterNumber());
         }
 
     }
