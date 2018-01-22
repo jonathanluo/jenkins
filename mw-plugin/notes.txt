@@ -1,3 +1,5 @@
+https://wiki.jenkins.io/display/JENKINS/Plugin+tutorial
+
 1) Creating a New Plugin
 $ mvn archetype:generate -Dfilter=io.jenkins.archetypes:plugin
 
@@ -36,6 +38,30 @@ $ cd mw-plugin
 find | grep hpl
 ./work/plugins/mw-plugin.hpl
 
-https://www.youtube.com/watch?v=azyv183Ua6U
+Debug jenkins plugin
+Maven java jersey rest dependencies
+Dropdown selection processing in jenkins
+
+Jenkins Online SeetUp
+http://www.meetup.com/Jenkins-online-meetup/
+
+Plugin Development - Basics                     https://www.youtube.com/watch?v=azyv183Ua6U
     MwJpiRootAction
     SleepBuilder
+    Plugin unit test                            https://youtu.be/azyv183Ua6U?t=2979
+
+Jenkins Web UI
+    Associating view files with classes         https://youtu.be/iAJBKFe8mMo?t=1482
+    Internationalization with parameters        https://youtu.be/iAJBKFe8mMo?t=1977
+    Some predefined variables and functions     https://youtu.be/iAJBKFe8mMo?t=2113
+    Job tyep hierarchy                          https://youtu.be/iAJBKFe8mMo?t=2351
+    What's next?                                https://youtu.be/iAJBKFe8mMo?t=2959
+        Forms and structured for submission     https://wiki.jenkins.io/display/JENKINS/Structured+Form+Submission
+        /lib/form taglib                        https://github.com/jenkinsci/jenkins/tree/master/core/src/main/resources/lib/form
+        Descriptor and data binding
+        @RequirePOST                            https://wiki.jenkins.io/display/JENKINS/Web+Method
+        Form validation adn @QueryParmeter      https://wiki.jenkins.io/display/JENKINS/Jelly+form+controls
+
+    Demo - Action Plugin                        https://youtu.be/iAJBKFe8mMo?t=3074
+
+Jenkins Test Frameworks
