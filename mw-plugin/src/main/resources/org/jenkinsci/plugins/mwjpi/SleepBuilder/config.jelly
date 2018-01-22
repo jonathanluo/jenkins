@@ -25,4 +25,7 @@
         <f:select />
     </f:entry>
 
+    <f:entry field="osType" title="Choose os type">
+        <f:select />
+    </f:entry>
 </j:jelly>

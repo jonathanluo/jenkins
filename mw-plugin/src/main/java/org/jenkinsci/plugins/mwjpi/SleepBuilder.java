@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import org.jenkinsci.plugins.mwjpi.model.BuildGoal;
+import org.jenkinsci.plugins.mwjpi.model.OsType;
 import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
@@ -32,6 +33,8 @@ public class SleepBuilder extends Builder {
     private long time;
     private String testName;
     private String testType;
+    private String goalType;
+    private String osType;
 
     /**
      * Match by field name, argument order is not important 
@@ -85,6 +88,9 @@ public class SleepBuilder extends Builder {
 
     @Extension
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
+
+        private String goalType;
+        private String osType;
 
         @Override
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
@@ -186,7 +192,15 @@ public class SleepBuilder extends Builder {
             return items;
         }
 
-        public List<BuildGoal> getBuildGoals() {
+        public ListBoxModel doFillOsTypeItems() {
+            ListBoxModel items = new ListBoxModel();
+            for (OsType goal : getOsTypes()) {
+                items.add(goal.getDisplayName(), goal.getId());
+            }
+            return items;
+        }
+
+        private List<BuildGoal> getBuildGoals() {
             List<BuildGoal> list = new ArrayList<BuildGoal>();
             list.add(new BuildGoal("", "Select a build goal"));
             list.add(new BuildGoal("101", "Build"));
@@ -196,10 +210,27 @@ public class SleepBuilder extends Builder {
             return list;
         }
 
+        private List<OsType> getOsTypes() {
+            List<OsType> list = new ArrayList<OsType>();
+            if (goalType.equals("101")) {
+                list.add(new OsType("", "Select an os type"));
+                list.add(new OsType("ubuntu", "Ubuntu x64"));
+                list.add(new OsType("centos", "CentOS x64"));
+                list.add(new OsType("oracle", "Oracle x64"));
+            } else {
+                list.add(new OsType("", "Select an os type"));
+                list.add(new OsType("ubuntu32", "Ubuntu x32"));
+                list.add(new OsType("centos32", "CentOS x32"));
+                list.add(new OsType("oracle32", "Oracle x32"));
+            }
+            return list;
+        }
+
         public FormValidation doCheckGoalType(@QueryParameter("goalType") final String goalType, @AncestorInPath AbstractProject project)
                 throws IOException, ServletException {
             try {
                 if (goalType.equals("101") || goalType.equals("201")) {
+                    this.goalType = goalType;
                     return FormValidation.ok();
                 }
                 return FormValidation.error("Currently goal type '" + goalType + "' is not supported, pick another one");
