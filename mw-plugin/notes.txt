@@ -38,7 +38,16 @@ $ cd mw-plugin
 find | grep hpl
 ./work/plugins/mw-plugin.hpl
 
-Debug jenkins plugin
+5) Debug jenkins plugin in IDE
+    01/22/18 11:10
+    In Eclipse, Select mw-plugin project, click Run > Debug Configurations...
+	Click New Remote Java Application, fill out the following fields:
+	Name: 				mw-plgin
+	Project: 			mw-plgin
+	Connection Type: 	Standard(Socket Attach)
+	Host:				localhost
+	Port:				8000
+
 Maven java jersey rest dependencies
 Dropdown selection processing in jenkins
 

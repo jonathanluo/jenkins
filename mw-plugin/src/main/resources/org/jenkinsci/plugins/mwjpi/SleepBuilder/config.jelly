@@ -3,11 +3,21 @@
     <f:entry title="Time" field="time">
         <f:textbox />
     </f:entry>
-    <f:entry name="testType" title="Test Type" field="testType">
-        <select name="testType">
+    <f:entry title="Test name" field="testName">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="Test type" field="testType">
+        <select>
             <option value="" selected="selected">Select one</option>
-            <option value="sas">SAS</option>
-            <option value="nuvm">NVMe</option>
+            <option value="unit">Unit testing</option>
+            <option value="bb">Black-box testing</option>
+            <option value="white">White-box testing</option>
+            <option value="acceptance">Acceptance testing</option>
+            <option value="automated">Automated testing</option>
+            <option value="regression">Regression testing</option>
+            <option value="functional">Functional testing</option>
+            <option value="exploratory">Exploratory testing</option>
+            <option value="other">Other testing</option>
         </select>
     </f:entry>
 </j:jelly>

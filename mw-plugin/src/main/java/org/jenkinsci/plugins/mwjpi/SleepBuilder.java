@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
+import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
@@ -23,13 +24,18 @@ import hudson.util.FormValidation;
  */
 public class SleepBuilder extends Builder {
     private long time;
+    private String testName;
 
+    /**
+     * Match by field name, argument order is not important 
+     */
     @DataBoundConstructor
-    public SleepBuilder(long time) {
+    public SleepBuilder(String testName, long time) { // goes here when Save / Apply clicked during Job configuration
         this.time = time;
+        this.testName = testName;
     }
 
-    public long getTime() {
+    public long getTime() { // goes here when Config clicked if previous saved Job contains SleepBuilder instance
         return time;
     }
 
@@ -37,8 +43,17 @@ public class SleepBuilder extends Builder {
         this.time = time;
     }
 
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
+
     @Override
     public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
+        listener.getLogger().println("Test Name: " + this.testName);
         listener.getLogger().println("Going to sleep for: " + time + " ms.");
         for (int i = 0; i < time / 1000; i++) {
             listener.getLogger().println("    pause for " + (i+1) + " second.");
@@ -65,7 +80,13 @@ public class SleepBuilder extends Builder {
             return Messages.SleepBuilder_DescriptorImpl_DisplayName();
         }
 
-        public FormValidation doCheckTime(@QueryParameter String time)
+        /**
+         * https://wiki.eclipse.org/Jelly_form_controls - how to populate other fields in jenkins plugin
+         */
+        public FormValidation doCheckTime(@QueryParameter("time") String time, // goes here when config intial page load, on change, Apply
+                                          @QueryParameter("testName") String test_name,
+                                          @QueryParameter String testType
+                )
                 throws IOException, ServletException {
             try {
                 if (Long.valueOf(time) < 0) {
@@ -81,5 +102,38 @@ public class SleepBuilder extends Builder {
             return FormValidation.error(Messages.SleepBuilder_DescriptorImpl_errors_enterNumber());
         }
 
+        public FormValidation doCheckTestName(@QueryParameter String testName, @AncestorInPath AbstractProject project)
+                throws IOException, ServletException {
+            try {
+                if (testName.startsWith("Test")) {
+                    return FormValidation.ok();
+                } else {
+                    return FormValidation.error("Test name must start with 'Test'");
+                }
+            } catch (NumberFormatException e) {
+            }
+            return FormValidation.error(Messages.SleepBuilder_DescriptorImpl_errors_enterNumber());
+        }
+
+        /**
+         * https://wiki.jenkins.io/display/JENKINS/Form+Validation
+         *
+         * Accessing context
+         * Sometimes you want to access the context. For example, you might want to access the current 
+         * FreeStyleProject object while validating a field of a Builder. You do this by putting 
+         * AncestorInPath annotation.
+         */
+        public FormValidation doCheckTestType(@QueryParameter("testType") String testType, @AncestorInPath AbstractProject project)
+                throws IOException, ServletException {
+            try {
+                if (testType.equals("unit") || testType.equals("regression") || testType.equals("functional")) {
+                    return FormValidation.ok();
+                } else {
+                    return FormValidation.error("Currently test type '" + testType + "' is not supported, pick another one");
+                }
+            } catch (NumberFormatException e) {
+            }
+            return FormValidation.error(Messages.SleepBuilder_DescriptorImpl_errors_enterNumber());
+        }
     }
 }
