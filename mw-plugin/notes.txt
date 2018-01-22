@@ -63,5 +63,7 @@ Jenkins Web UI
         Form validation adn @QueryParmeter      https://wiki.jenkins.io/display/JENKINS/Jelly+form+controls
 
     Demo - Action Plugin                        https://youtu.be/iAJBKFe8mMo?t=3074
+    Jenkins UI devlopment 2016 and beyond       https://youtu.be/iAJBKFe8mMo?t=3913
+    Demo - Node.js                              https://youtu.be/iAJBKFe8mMo?t=5321
 
 Jenkins Test Frameworks

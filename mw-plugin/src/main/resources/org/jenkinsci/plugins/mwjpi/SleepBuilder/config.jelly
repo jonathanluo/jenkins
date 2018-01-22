@@ -3,4 +3,11 @@
     <f:entry title="Time" field="time">
         <f:textbox />
     </f:entry>
+    <f:entry name="testType" title="Test Type" field="testType">
+        <select name="testType">
+            <option value="" selected="selected">Select one</option>
+            <option value="sas">SAS</option>
+            <option value="nuvm">NVMe</option>
+        </select>
+    </f:entry>
 </j:jelly>
