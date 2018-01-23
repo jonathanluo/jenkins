@@ -8,6 +8,9 @@
     <f:entry title="${descriptor.getTitle4TestName()}" field="testName">
         <f:textbox default="${descriptor.defaultTestName}" />
     </f:entry>
+    <f:entry title="Instance Variable" field="dummyField">
+        <f:textbox default="${instance.getMyString()}" />
+    </f:entry>
 
     <!--https://wiki.jenkins.io/display/JENKINS/Jelly+form+controls :: Select (drop-down menu) -->
     <!--
