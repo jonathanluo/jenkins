@@ -110,6 +110,19 @@ public class SleepBuilder extends Builder {
             return Messages.SleepBuilder_DescriptorImpl_DisplayName();
         }
 
+        // define some title texts, default values
+        public String getTitle4Time() {
+            return "Time";
+        }
+
+        public String getTitle4TestName() {
+            return "Test name";
+        }
+
+        public String getDefaultTestName() {
+            return "Test_";
+        }
+
         /**
          * https://wiki.eclipse.org/Jelly_form_controls
          *    - how to populate other fields in jenkins plugin

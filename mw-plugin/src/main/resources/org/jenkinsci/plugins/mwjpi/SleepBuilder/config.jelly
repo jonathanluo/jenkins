@@ -1,11 +1,12 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
-    <f:entry title="Time-${it.myString}" field="time">
+    <!-- https://wiki.jenkins.io/display/JENKINS/Basic+guide+to+Jelly+usage+in+Jenkins :: descriptor -->
+    <f:entry title="${descriptor.title4Time}" field="time">
         <f:textbox />
     </f:entry>
-    <f:entry title="Test name" field="testName">
-        <f:textbox />
+    <f:entry title="${descriptor.getTitle4TestName()}" field="testName">
+        <f:textbox default="${descriptor.defaultTestName}" />
     </f:entry>
 
     <!--https://wiki.jenkins.io/display/JENKINS/Jelly+form+controls :: Select (drop-down menu) -->
