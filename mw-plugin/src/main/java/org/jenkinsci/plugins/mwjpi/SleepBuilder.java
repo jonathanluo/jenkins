@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.CheckForNull; 
+import edu.umd.cs.findbugs.annotations.NonNull; 
 import javax.servlet.ServletException;
 
 import org.jenkinsci.plugins.mwjpi.model.BuildGoal;
@@ -31,19 +33,25 @@ import hudson.util.ListBoxModel;
  */
 public class SleepBuilder extends Builder {
     private long time;
+    @NonNull
     private String testName;
     private String testType;
     private String goalType;
     private String osType;
 
     /**
+     * https://www.programcreek.com/java-api-examples/org.kohsuke.stapler.DataBoundConstructor
      * Match by field name, argument order is not important 
      */
     @DataBoundConstructor
-    public SleepBuilder(String testName, long time, String testType) { // goes here when Save / Apply clicked during Job configuration
+    public SleepBuilder(@CheckForNull String testName, long time, String testType) { // goes here when Save / Apply clicked during Job configuration
         this.time = time;
         this.testName = testName;
         this.testType = testType;
+    }
+
+    public String getMyString() {
+        return "Hello Jenkins!";
     }
 
     public long getTime() { // goes here when Config clicked if previous saved Job contains SleepBuilder instance
@@ -197,6 +205,21 @@ public class SleepBuilder extends Builder {
             for (OsType goal : getOsTypes()) {
                 items.add(goal.getDisplayName(), goal.getId());
             }
+            return items;
+        }
+
+        public ListBoxModel doFillTestTypeItems() {
+            ListBoxModel items = new ListBoxModel();
+            items.add("Select one", "");
+            items.add("Unit testing", "unit");
+            items.add("Black-box testing", "black-box");
+            items.add("White-box testing", "white-box");
+            items.add("Acceptance testing", "acceptance");
+            items.add("Automated testing", "automated");
+            items.add("Regression testing", "regression");
+            items.add("Functional testing", "functional");
+            items.add("Exploratory testing", "exploratory");
+            items.add("Other testing", "other");
             return items;
         }
 
