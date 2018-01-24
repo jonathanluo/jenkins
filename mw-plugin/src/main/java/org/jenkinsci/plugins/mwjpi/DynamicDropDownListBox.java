@@ -85,17 +85,21 @@ public class DynamicDropDownListBox extends Builder {
 
         public ListBoxModel doFillStateItems(@QueryParameter String country) {
             ListBoxModel m = new ListBoxModel();
-            for (String s : asList("A","B","C"))
-                m.add(String.format("State %s in %s", s, country),
-                        country+':'+s);
+            if (!country.isEmpty()) {
+                for (String s : asList("A","B","C"))
+                    m.add(String.format("State %s in country '%s'", s, country),
+                            country+':'+s);
+            }
             return m;
         }
 
         public ListBoxModel doFillCityItems(@QueryParameter String country, @QueryParameter String state) {
             ListBoxModel m = new ListBoxModel();
-            for (String s : asList("X","Y","Z"))
-                m.add(String.format("City %s in %s %s", s, state, country),
-                        state+':'+s);
+            if (!country.isEmpty()) {
+                for (String s : asList("W","X","Y","Z"))
+                    m.add(String.format("City %s in state '%s', country '%s'", s, state, country),
+                            state+':'+s);
+            }
             return m;
         }
 

@@ -94,6 +94,7 @@ public class SleepBuilder extends Builder {
         listener.getLogger().println("Going to sleep for: " + time + " ms.");
         for (int i = 0; i < time / 1000; i++) {
             listener.getLogger().println("    pause for " + (i+1) + " second.");
+            listener.getLogger().println(RestClient.query("/test_type/" + (i+1)));
             Thread.sleep(1000);
         }
         long remainder = time % 1000;
@@ -137,7 +138,7 @@ public class SleepBuilder extends Builder {
          * Get rest string on the fly
          */
         public String getMyString() {
-        	return RestClient.query("/test_type/5");
+            return RestClient.query("/test_type/5");
         }
 
         /**
@@ -230,9 +231,9 @@ public class SleepBuilder extends Builder {
             return items;
         }
 
-        public ListBoxModel doFillOsTypeItems() {
+        public ListBoxModel doFillOsTypeItems(@QueryParameter("goalType") final String goalType) {
             ListBoxModel items = new ListBoxModel();
-            for (OsType goal : getOsTypes()) {
+            for (OsType goal : getOsTypes(goalType)) {
                 items.add(goal.getDisplayName(), goal.getId());
             }
             return items;
@@ -253,6 +254,19 @@ public class SleepBuilder extends Builder {
             return items;
         }
 
+        public FormValidation doCheckGoalType(@QueryParameter("goalType") final String goalType, @AncestorInPath AbstractProject project)
+                throws IOException, ServletException {
+            try {
+                if (goalType.equals("101") || goalType.equals("201")) {
+                    this.goalType = goalType;
+                    return FormValidation.ok();
+                }
+                return FormValidation.error("Currently goal type '" + goalType + "' is not supported, pick another one");
+            } catch (NumberFormatException e) {
+            }
+            return FormValidation.error("Unknown error occurred");
+        }
+
         private List<BuildGoal> getBuildGoals() {
             List<BuildGoal> list = new ArrayList<BuildGoal>();
             list.add(new BuildGoal("", "Select a build goal"));
@@ -263,7 +277,7 @@ public class SleepBuilder extends Builder {
             return list;
         }
 
-        private List<OsType> getOsTypes() {
+        private List<OsType> getOsTypes(final String goalType) {
             List<OsType> list = new ArrayList<OsType>();
             if ("101".equals(goalType)) {
                 list.add(new OsType("", "Select an os type"));
@@ -277,19 +291,6 @@ public class SleepBuilder extends Builder {
                 list.add(new OsType("oracle32", "Oracle x32"));
             }
             return list;
-        }
-
-        public FormValidation doCheckGoalType(@QueryParameter("goalType") final String goalType, @AncestorInPath AbstractProject project)
-                throws IOException, ServletException {
-            try {
-                if (goalType.equals("101") || goalType.equals("201")) {
-                    this.goalType = goalType;
-                    return FormValidation.ok();
-                }
-                return FormValidation.error("Currently goal type '" + goalType + "' is not supported, pick another one");
-            } catch (NumberFormatException e) {
-            }
-            return FormValidation.error("Unknown error occurred");
         }
     }
 }
