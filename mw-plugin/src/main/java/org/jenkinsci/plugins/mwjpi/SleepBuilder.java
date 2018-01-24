@@ -137,7 +137,7 @@ public class SleepBuilder extends Builder {
          * Get rest string on the fly
          */
         public String getMyString() {
-        	return RestClient.query();
+        	return RestClient.query("sji/choices/test_type/5");
         }
 
         /**
