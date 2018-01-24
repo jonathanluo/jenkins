@@ -25,6 +25,16 @@ import hudson.tasks.Builder;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 
+import java.net.URI;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
+import org.glassfish.jersey.client.ClientConfig;
+
+import org.jenkinsci.plugins.mwjpi.rest.RestClient;
+
 /**
  * https://stackoverflow.com/questions/12236909/the-package-collides-with-a-type
  * SleepBuilder is a class name in main/java, and a package name in main/resources
@@ -121,6 +131,13 @@ public class SleepBuilder extends Builder {
 
         public String getDefaultTestName() {
             return "Test_";
+        }
+
+        /**
+         * Get rest string on the fly
+         */
+        public String getMyString() {
+        	return RestClient.query();
         }
 
         /**
@@ -248,7 +265,7 @@ public class SleepBuilder extends Builder {
 
         private List<OsType> getOsTypes() {
             List<OsType> list = new ArrayList<OsType>();
-            if (goalType.equals("101")) {
+            if ("101".equals(goalType)) {
                 list.add(new OsType("", "Select an os type"));
                 list.add(new OsType("ubuntu", "Ubuntu x64"));
                 list.add(new OsType("centos", "CentOS x64"));

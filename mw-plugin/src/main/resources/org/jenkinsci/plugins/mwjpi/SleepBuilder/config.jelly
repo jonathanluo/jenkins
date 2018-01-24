@@ -11,6 +11,9 @@
     <f:entry title="Instance Variable" field="dummyField">
         <f:textbox default="${instance.getMyString()}" />
     </f:entry>
+    <f:entry title="Descriptor Variable (rest)" field="restdata">
+        <f:textbox default="${descriptor.getMyString()}" />
+    </f:entry>
 
     <!--https://wiki.jenkins.io/display/JENKINS/Jelly+form+controls :: Select (drop-down menu) -->
     <!--
