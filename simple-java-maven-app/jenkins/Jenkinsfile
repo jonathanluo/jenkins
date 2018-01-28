@@ -9,7 +9,6 @@ pipeline {
         stage('Build') {
             steps {
 		sh "pwd"
-		sh "echo $SHELL"
 		sh "which bash"
 		sh "echo $PATH"
 		sh "bash pwd"
