@@ -9,7 +9,10 @@ pipeline {
         stage('Build') {
             steps {
 		sh "pwd"
-	        bash "pwd"
+		sh "echo $SHELL"
+		sh "which bash"
+		sh "echo $PATH"
+		sh "bash pwd"
 		sh "export prjpath=`pwd`"
 		sh "echo $prjpath"
 		sh "ls -l"
