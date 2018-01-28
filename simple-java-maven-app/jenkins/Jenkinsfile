@@ -5,35 +5,32 @@ pipeline {
             args '-v /root/.m2:/root/.m2'
         }
     }
+    environment { 
+        prjhome = "/var/jenkins_home/workspace/java-maven-app"
+        prjpath = 'simple-java-maven-app'
+    }    
     stages {
         stage('Build') {
             steps {
-		sh "pwd"
-		sh "which bash"
-		sh "echo $PATH"
-		sh "bash pwd"
-		sh "export prjpath=`pwd`"
-		sh "echo $prjpath"
-		sh "ls -l"
-                sh "cd $prjpath/simple-java-maven-app"
-		sh "pwd"
-		sh "ls -l"
-                sh 'mvn -B -DskipTests clean package'
+	    	sh "pwd"
+    		sh "echo $prjhome"
+     		sh "echo $prjpath"
+                sh 'cd $prjpath; mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'cd $prjpath; mvn test'
             }
             post {
                 always {
-                    junit 'target/surefire-reports/*.xml'
+                    junit '$prjhome/$prjpath/target/surefire-reports/*.xml'
                 }
             }
         }
         stage('Deliver') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                sh '$prjpath/jenkins/scripts/deliver.sh'
             }
         }
     }
