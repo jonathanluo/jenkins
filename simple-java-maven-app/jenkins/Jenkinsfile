@@ -10,7 +10,7 @@ pipeline {
             steps {
 		sh "pwd"
 		sh "ls -l"
-                sh "cd simple-java-maven-app"
+                sh "cd $PWD/simple-java-maven-app"
 		sh "pwd"
 		sh "ls -l"
                 sh 'mvn -B -DskipTests clean package'
