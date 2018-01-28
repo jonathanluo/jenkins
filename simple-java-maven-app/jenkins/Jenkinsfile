@@ -9,8 +9,11 @@ pipeline {
         stage('Build') {
             steps {
 		sh "pwd"
+	        bash "pwd"
+		sh "export prjpath=`pwd`"
+		sh "echo $prjpath"
 		sh "ls -l"
-                sh "cd $PWD/simple-java-maven-app"
+                sh "cd $prjpath/simple-java-maven-app"
 		sh "pwd"
 		sh "ls -l"
                 sh 'mvn -B -DskipTests clean package'
