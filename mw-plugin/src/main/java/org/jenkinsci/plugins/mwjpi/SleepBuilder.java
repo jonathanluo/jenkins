@@ -13,6 +13,8 @@ import org.jenkinsci.plugins.mwjpi.model.OsType;
 import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.Stapler;
+import org.kohsuke.stapler.StaplerResponse;
 
 import hudson.Extension;
 import hudson.Launcher;
@@ -202,6 +204,9 @@ public class SleepBuilder extends Builder {
         /**
          * https://wiki.jenkins.io/display/JENKINS/Jelly+form+controls
          * Select (drop-down menu), Validation Button
+         *
+         *    <f:validateButton title="Validate" progress="validating..."
+         *           method="testConnection" with="testName,testType,time" />
          */
         public FormValidation doTestConnection(@QueryParameter("testName") final String testName, 
                                                @QueryParameter("testType") final String testType,
@@ -209,6 +214,37 @@ public class SleepBuilder extends Builder {
                                                @AncestorInPath AbstractProject project)
                 throws IOException, ServletException {
             try {
+
+                if (testType.equals("unit") || testType.equals("regression") || testType.equals("functional")) {
+                    return FormValidation.ok("Success");
+                } else {
+                    return FormValidation.error("Currently test type '" + testType + "' is not supported, pick another one");
+                }
+            } catch (NumberFormatException e) {
+            }
+            return FormValidation.error("Unknown error occurred");
+        }
+
+        /**
+         * http://jenkins-ci.361315.n4.nabble.com/Update-Dropdown-elements-via-ajax-td4699541.html
+         * The following method is equivalent to the above method
+         *
+         *    <f:validateButton title="Validate" progress="validating..."
+         *           method="testConnection2" with="testName,testType,time" />
+         *
+         * @return
+         * @throws IOException
+         * @throws ServletException
+         */
+        public FormValidation doTestConnection2()
+                throws IOException, ServletException {
+            try {
+
+                String testName = Stapler.getCurrentRequest().getParameter("testName");
+                String testType = Stapler.getCurrentRequest().getParameter("testtype");
+                String time = Stapler.getCurrentRequest().getParameter("time");
+                StaplerResponse resp = Stapler.getCurrentResponse();
+
                 if (testType.equals("unit") || testType.equals("regression") || testType.equals("functional")) {
                     return FormValidation.ok("Success");
                 } else {

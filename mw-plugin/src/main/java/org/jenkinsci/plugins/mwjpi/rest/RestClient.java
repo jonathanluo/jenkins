@@ -2,6 +2,10 @@ package org.jenkinsci.plugins.mwjpi.rest;
 
 import java.io.InputStream;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.ws.rs.client.Client;
@@ -44,6 +48,47 @@ public class RestClient {
         String result = target.path(path).request().header("Authorization", "Token " + prop.getProperty(ACCESS_TOKEN))
                 .accept(MediaType.APPLICATION_JSON).get(String.class);
         return result;
+    }
+
+    /**
+     * Sample query:
+     *        full url: http://localhost:8000/employees?ordering=first_name,last_name&limit=999"
+     *        query("employees/", "ordering=first_name,last_name&limit=999")
+     *
+     * @param path relative rest url path 
+     * @param queryParams query parameters separated by &amp;
+     *        e.g. ordering=first_name,last_name&limit=999
+     *             name=book&amp;location=fremont
+     * @return
+     */
+    public static String query(String path, String queryParams) {
+
+        ClientConfig config = new ClientConfig();
+        Client client = ClientBuilder.newClient(config);
+        WebTarget target = client.target(getBaseURI());
+
+        target = target.path(path);
+        Map<String, String> map = toQueryMap(queryParams);
+        Iterator<Entry<String, String>> it = map.entrySet().iterator();
+        while (it.hasNext()) {
+        	Entry<String, String> entry = it.next();
+        	target = target.queryParam(entry.getKey(), entry.getValue());
+        }
+        // token authentication
+        String result = target.request().header("Authorization", "Token " + prop.getProperty(ACCESS_TOKEN))
+                .accept(MediaType.APPLICATION_JSON).get(String.class);
+        return result;
+    }
+
+    private static Map<String, String> toQueryMap(String query) {
+        String[] params = query.split("&");
+        Map<String, String> map = new HashMap<String, String>();
+        for (String param : params) {
+            String name  = param.split("=")[0];
+            String value = param.split("=")[1];
+            map.put(name, value);
+        }
+        return map;
     }
 
     private static URI getBaseURI() {
