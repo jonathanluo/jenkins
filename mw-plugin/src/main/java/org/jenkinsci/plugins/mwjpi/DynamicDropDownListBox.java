@@ -83,6 +83,11 @@ public class DynamicDropDownListBox extends Builder {
             return "Dynamic Drop Down ListBox";
         }
 
+        /**
+         * <select fillurl="/jenkins/job/2nd%20Test/descriptorByName/org.jenkinsci.plugins.mwjpi.DynamicDropDownListBox/fillStateItems" 
+         *         filldependson="country" name="_.state" class="setting-input  select " value="">
+         * </select>
+         */
         public ListBoxModel doFillStateItems(@QueryParameter String country) {
             ListBoxModel m = new ListBoxModel();
             if (!country.isEmpty()) {
@@ -93,6 +98,11 @@ public class DynamicDropDownListBox extends Builder {
             return m;
         }
 
+        /**
+         * <select fillurl="/jenkins/job/2nd%20Test/descriptorByName/org.jenkinsci.plugins.mwjpi.DynamicDropDownListBox/fillCityItems"
+         *         filldependson="country state" name="_.city" class="setting-input  select " value="">
+         * </select>
+         */
         public ListBoxModel doFillCityItems(@QueryParameter String country, @QueryParameter String state) {
             ListBoxModel m = new ListBoxModel();
             if (!country.isEmpty()) {

@@ -4,11 +4,15 @@
         function clickMe() { 
             alert("Hello World!");
         }
+        function showCheckUrl() {
+            var checkurl = document.getElementsByName('_.name')[0].checkurl
+            alert("checkurl: " + checkurl);
+        }
     </script>
     <f:entry title="test" field="test">
         <f:textbox onclick="clickMe(); return false;" />
     </f:entry>
-    <f:entry title="${%Name}" field="name">
+    <f:entry title="${%Name}" field="name" onclick="showCheckUrl();">
         <f:textbox />
     </f:entry>
     <f:advanced>

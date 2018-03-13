@@ -61,6 +61,16 @@ public class PostBuildSteps extends Recorder {
     @Extension
     public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
 
+        /**
+         * <input checkdependson="useFrench" 
+         *        checkurl="/jenkins/job/2nd%20Test/descriptorByName/org.jenkinsci.plugins.mwjpi.PostBuildSteps/checkName" 
+         *        name="_.name"
+         *        type="text"
+         *        class="setting-input validated  "
+         *        value="">
+         * 
+         * http://localhost:8080/jenkins/job/2nd%20Test/descriptorByName/org.jenkinsci.plugins.mwjpi.PostBuildSteps/checkName?value=test&useFrench=false
+         */
         public FormValidation doCheckName(@QueryParameter String value, @QueryParameter boolean useFrench)
                 throws IOException, ServletException {
             if (value.length() == 0)
