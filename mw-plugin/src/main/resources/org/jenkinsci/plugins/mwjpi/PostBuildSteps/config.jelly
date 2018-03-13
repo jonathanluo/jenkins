@@ -9,11 +9,11 @@
             alert("checkurl: " + checkurl);
         }
     </script>
-    <f:entry title="test" field="test">
-        <f:textbox onclick="clickMe(); return false;" />
+    <f:entry title="test" field="test" >
+        <f:textbox onclick="showCheckUrl(); return false;" checkurl="/jenkins/job/2nd%20Test/descriptorByName/org.jenkinsci.plugins.mwjpi.PostBuildSteps/checkName" />
     </f:entry>
-    <f:entry title="${%Name}" field="name" onclick="showCheckUrl();">
-        <f:textbox />
+    <f:entry title="${%Name}" field="name" >
+        <f:textbox onblur="showCheckUrl();"/>
     </f:entry>
     <f:advanced>
         <f:entry title="${%French}" field="useFrench"
