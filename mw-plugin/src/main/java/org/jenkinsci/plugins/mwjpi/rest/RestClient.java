@@ -10,10 +10,13 @@ import java.util.Properties;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import org.glassfish.jersey.client.ClientConfig;
+import org.json.JSONObject;
 
 public class RestClient {
 
@@ -71,8 +74,8 @@ public class RestClient {
         Map<String, String> map = toQueryMap(queryParams);
         Iterator<Entry<String, String>> it = map.entrySet().iterator();
         while (it.hasNext()) {
-        	Entry<String, String> entry = it.next();
-        	target = target.queryParam(entry.getKey(), entry.getValue());
+            Entry<String, String> entry = it.next();
+            target = target.queryParam(entry.getKey(), entry.getValue());
         }
         // token authentication
         String result = target.request().header("Authorization", "Token " + prop.getProperty(ACCESS_TOKEN))
@@ -80,6 +83,21 @@ public class RestClient {
         return result;
     }
 
+    public static String post4AccessToken(String username, String password) {
+        ClientConfig config = new ClientConfig();
+        Client client = ClientBuilder.newClient(config);
+        WebTarget target = client.target(getBaseURI());
+
+        Form form = new Form();
+        form.param("username", username);
+        form.param("password", password);
+        String data = target.path("access-token").request(MediaType.APPLICATION_JSON)
+                    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
+        JSONObject obj = new JSONObject(data);
+        String token = obj.getString("token");
+        return token;
+    }
+    
     private static Map<String, String> toQueryMap(String query) {
         String[] params = query.split("&");
         Map<String, String> map = new HashMap<String, String>();
