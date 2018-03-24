@@ -16,6 +16,7 @@ import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerResponse;
 
+import hudson.EnvVars;
 import hudson.Extension;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
@@ -92,6 +93,15 @@ public class SleepBuilder extends Builder {
 
     @Override
     public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
+        /* https://stackoverflow.com/questions/10625259/how-to-set-environment-variables-in-jenkins
+             Environment Injector Plugin
+             Inject environment variables
+                Properties File Path
+                Properties Content
+        */
+        EnvVars env = build.getEnvironment(listener);
+        String zipFilePath = env.get("ZIP_FILE_PATH");
+
         listener.getLogger().println("Test Name: " + this.testName);
         listener.getLogger().println("Going to sleep for: " + time + " ms.");
         for (int i = 0; i < time / 1000; i++) {
