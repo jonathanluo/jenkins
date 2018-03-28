@@ -274,6 +274,7 @@ public class SleepBuilder extends Builder {
             for (BuildGoal goal : getBuildGoals()) {
                 items.add(goal.getDisplayName(), goal.getId());
             }
+            items.get(0).selected = true;
             return items;
         }
 
@@ -282,6 +283,7 @@ public class SleepBuilder extends Builder {
             for (OsType goal : getOsTypes(goalType)) {
                 items.add(goal.getDisplayName(), goal.getId());
             }
+            items.get(0).selected = true;
             return items;
         }
 

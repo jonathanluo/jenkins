@@ -52,4 +52,8 @@
     <f:entry field="osType" title="Choose os type">
         <f:select />
     </f:entry>
+
+    <f:entry field="dummyFieldToHide" title="" style="display:none">
+        <f:select style="display:none" />
+    </f:entry>
 </j:jelly>
