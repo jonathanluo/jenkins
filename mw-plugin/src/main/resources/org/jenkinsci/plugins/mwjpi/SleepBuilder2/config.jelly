@@ -43,14 +43,12 @@
     <f:validateButton title="Validate" progress="validating..."
                       method="testConnection" with="testName,testType,time" />
 
-    <!--https://wiki.jenkins.io/display/JENKINS/Jelly+form+controls
-            Select (drop-down menu) with model filled values -->
-    <f:entry field="goalType" title="Choose Goal Type">
-        <f:select />
-    </f:entry>
-
-    <f:entry field="osType" title="Choose os type" style="width:400px" >
-        <f:select style="width:400px"/>
+    <!--   <l:side-panel> <l:pane> -->
+    <f:entry>
+        <label>Choose Goal Type</label>
+        <f:select field="goalType" style="width:400px" />
+        <label style="width:200px">Choose OS type</label>
+        <f:select field="osType" style="width:400px" />
     </f:entry>
 
     <f:entry field="dummyFieldToHide" title="" style="display:none">

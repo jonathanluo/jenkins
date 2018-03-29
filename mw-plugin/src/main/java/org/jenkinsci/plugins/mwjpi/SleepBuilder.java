@@ -283,7 +283,7 @@ public class SleepBuilder extends Builder {
             for (OsType goal : getOsTypes(goalType)) {
                 items.add(goal.getDisplayName(), goal.getId());
             }
-            items.get(0).selected = true;
+            items.get(1).selected = true;
             return items;
         }
 
@@ -299,6 +299,12 @@ public class SleepBuilder extends Builder {
             items.add("Functional testing", "functional");
             items.add("Exploratory testing", "exploratory");
             items.add("Other testing", "other");
+            return items;
+        }
+
+        public ListBoxModel doFillDummyFieldToHideItems() {
+            ListBoxModel items = new ListBoxModel();
+            items.add("Select one", "");
             return items;
         }
 
@@ -318,8 +324,8 @@ public class SleepBuilder extends Builder {
         private List<BuildGoal> getBuildGoals() {
             List<BuildGoal> list = new ArrayList<BuildGoal>();
             list.add(new BuildGoal("", "Select a build goal"));
-            list.add(new BuildGoal("101", "Build"));
-            list.add(new BuildGoal("201", "Package"));
+            list.add(new BuildGoal("101", "Build x64"));
+            list.add(new BuildGoal("201", "Package x 32"));
             list.add(new BuildGoal("301", "Deploy"));
             list.add(new BuildGoal("401", "Install"));
             return list;

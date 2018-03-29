@@ -44,13 +44,14 @@
                       method="testConnection" with="testName,testType,time" />
 
     <!--https://wiki.jenkins.io/display/JENKINS/Jelly+form+controls
-            Select (drop-down menu) with model filled values -->
-    <f:entry field="goalType" title="Choose Goal Type" style="width:400px" >
-        <f:select style="width:400px" />
-    </f:entry>
+            Select (drop-down menu) with model filled values 
+        https://stackoverflow.com/questions/31625371/jenkins-jelly-view-how-to-aggregate-multiple-checkboxs-to-display-in-a-single-r
+    -->
 
-    <f:entry field="osType" title="Choose os type" style="width:400px" >
-        <f:select style="width:400px" />
+    <f:entry title="Choose Goal Type">
+        <f:select field="goalType" style="width:400px" />
+        <label>      Choose OS type</label>
+        <f:select field="osType" style="width:400px" />
     </f:entry>
 
     <f:entry field="dummyFieldToHide" title="" style="display:none">
