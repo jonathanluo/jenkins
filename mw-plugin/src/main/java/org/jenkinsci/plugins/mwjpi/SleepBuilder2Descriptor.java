@@ -54,7 +54,7 @@ public final class SleepBuilder2Descriptor extends BuildStepDescriptor<Builder> 
 
     @Override
     public String getDisplayName() {
-        return Messages.SleepBuilder_DescriptorImpl_DisplayName();
+        return Messages.SleepBuilder2_DescriptorImpl_DisplayName();
     }
 
     // define some title texts, default values

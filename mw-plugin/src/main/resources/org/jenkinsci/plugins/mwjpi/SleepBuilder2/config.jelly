@@ -45,12 +45,12 @@
 
     <!--https://wiki.jenkins.io/display/JENKINS/Jelly+form+controls
             Select (drop-down menu) with model filled values -->
-    <f:entry field="goalType" title="Choose Goal Type" style="width:400px" >
-        <f:select style="width:400px" />
+    <f:entry field="goalType" title="Choose Goal Type">
+        <f:select />
     </f:entry>
 
     <f:entry field="osType" title="Choose os type" style="width:400px" >
-        <f:select style="width:400px" />
+        <f:select style="width:400px"/>
     </f:entry>
 
     <f:entry field="dummyFieldToHide" title="" style="display:none">
